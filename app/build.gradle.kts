@@ -26,7 +26,23 @@ android {
                 "proguard-rules.pro"
             )
         }
+        debug {
+            signingConfig = signingConfigs.getByName("debug")
+        }
+        // Добавляем специальный тип сборки для бенчмарков
+        create("benchmark") {
+            initWith(getByName("release"))
+            signingConfig = signingConfigs.getByName("debug")
+            matchingFallbacks += listOf("release")
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            // не используем минификацию для бенчмарков
+            isMinifyEnabled = false
+            isDebuggable = false
+            // Добавляем суффикс для избежания конфликта с релизной версией
+            applicationIdSuffix = ".benchmark"
+        }
     }
+    
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
@@ -67,5 +83,24 @@ dependencies {
     implementation ("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0")
     implementation("io.coil-kt:coil-compose:2.5.0")
 
-
 }
+
+// Создаем файл правил Proguard для бенчмарков, если его ещё нет
+tasks.register("createBenchmarkRules") {
+    doLast {
+        val benchmarkRules = file("benchmark-rules.pro")
+        if (!benchmarkRules.exists()) {
+            benchmarkRules.writeText("""
+                # Правила для бенчмарков
+                -keepattributes *Annotation*
+                -keepclassmembers class * {
+                    @org.junit.Test *;
+                }
+                -keep class androidx.test.** { *; }
+                -keep class androidx.benchmark.** { *; }
+            """.trimIndent())
+        }
+    }
+}
+
+tasks.getByPath("preBuild").dependsOn("createBenchmarkRules")

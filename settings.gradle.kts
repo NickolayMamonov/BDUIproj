@@ -21,4 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "BDUIproj"
 include(":app")
- 
+include(":benchmarks")

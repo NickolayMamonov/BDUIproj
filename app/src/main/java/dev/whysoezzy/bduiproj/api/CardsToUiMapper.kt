@@ -3,6 +3,8 @@ package dev.whysoezzy.bduiproj.api
 import android.util.Log
 import dev.whysoezzy.bduiproj.api.model.CardResponse
 import dev.whysoezzy.bduiproj.model.BDUIResponse
+import dev.whysoezzy.bduiproj.model.Margin
+import dev.whysoezzy.bduiproj.model.Padding
 import dev.whysoezzy.bduiproj.model.Screen
 import dev.whysoezzy.bduiproj.utils.UIComponentWrapper
 
@@ -111,7 +113,7 @@ class CardsToUiMapper {
             textSize = 18,
             textColor = "#333333",
             fontWeight = "bold",
-            padding = dev.whysoezzy.bduiproj.model.Padding(16, 16, 8, 4)
+            padding = Padding(16, 16, 8, 4)
         )
     }
     
@@ -125,8 +127,8 @@ class CardsToUiMapper {
             componentType = "container",
             orientation = "horizontal",
             background = "#FFFFFF",
-            padding = dev.whysoezzy.bduiproj.model.Padding(16, 16, 16, 16),
-            margin = dev.whysoezzy.bduiproj.model.Margin(0, 0, 0, 8),
+            padding = Padding(16, 16, 16, 16),
+            margin = Margin(0, 0, 0, 8),
             cornerRadius = 8,
             components = listOf(
                 // Изображение
@@ -147,7 +149,7 @@ class CardsToUiMapper {
                     text = card.title,
                     textSize = 16,
                     textColor = "#333333",
-                    padding = dev.whysoezzy.bduiproj.model.Padding(16, 0, 0, 0)
+                    padding = Padding(16, 0, 0, 0)
                 )
             )
         )
@@ -165,7 +167,7 @@ class CardsToUiMapper {
             items = items,
             dividerEnabled = true,
             dividerColor = "#E0E0E0",
-            padding = dev.whysoezzy.bduiproj.model.Padding(16, 0, 16, 0)
+            padding = Padding(16, 0, 16, 0)
         )
     }
 }
